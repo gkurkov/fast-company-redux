@@ -4,6 +4,10 @@ import PropTypes from 'prop-types'
 
 const Profession = ({ id }) => {
     const { isLoading, getProfession } = useProfessions()
+
+    const professions = useSelector(getProfessions())
+    const isLoading = useSelector(getProfessionsLoadingStatus())
+
     const prof = getProfession(id)
     if (!isLoading) {
         return <p>{prof.name}</p>
