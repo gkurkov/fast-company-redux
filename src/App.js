@@ -5,7 +5,6 @@ import Users from './layouts/users'
 import NavBar from './components/ui/navBar'
 import Main from './layouts/main'
 import Login from './layouts/login'
-import AuthProvider from './hooks/useAuth'
 import ProtectedRoute from './components/common/protectedRoute'
 // import Edit from './layouts/edit'
 // import UsersLayout from './components/usersLayout'
@@ -16,7 +15,6 @@ function App() {
     return (
         <div>
             <AppLoader>
-                <AuthProvider>
                     <NavBar />
                     {/* <Users /> */}
                     <Switch>
@@ -33,7 +31,6 @@ function App() {
                         <Route path="/" exact component={Main} />
                         <Redirect to="/" />
                     </Switch>
-                </AuthProvider>
             </AppLoader>
             <ToastContainer />
         </div>
