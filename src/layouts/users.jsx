@@ -3,36 +3,40 @@ import { useParams, Redirect } from 'react-router-dom'
 import UsersListPage from '../components/page/usersListPage'
 import UserPage from '../components/page/userPage'
 import EditUserPage from '../components/page/editUserPage'
-import UserProvider from '../hooks/useUsers'
-import { useAuth } from '../hooks/useAuth'
+import { useSelector } from 'react-redux'
+import { getCurrentUserId } from '../store/users'
+import UsersLoader from '../components/ui/hoc/usersLoader'
 
 const Users = () => {
     const params = useParams()
     const { userId, edit } = params
-    const { currentUser } = useAuth()
+    const currentUserId = useSelector(getCurrentUserId())
+
     return (
         <>
-            <UserProvider>
-                <div className="container">
-                    <div className="row gutters-sm">
-                        {userId ? (
-                            edit ? (
-                                userId === currentUser._id ? (
-                                    <EditUserPage />
+            <UsersLoader>
+
+                    <div className="container">
+                        <div className="row gutters-sm">
+                            {userId ? (
+                                edit ? (
+                                    userId === currentUserId ? (
+                                        <EditUserPage />
+                                    ) : (
+                                        <Redirect
+                                            to={`/users/${currentUserId}/edit`}
+                                        />
+                                    )
                                 ) : (
-                                    <Redirect
-                                        to={`/users/${currentUser._id}/edit`}
-                                    />
+                                    <UserPage userId={userId} />
                                 )
                             ) : (
-                                <UserPage userId={userId} />
-                            )
-                        ) : (
-                            <UsersListPage />
-                        )}
+                                <UsersListPage />
+                            )}
+                        </div>
                     </div>
-                </div>
-            </UserProvider>
+
+            </UsersLoader>
         </>
     )
 }

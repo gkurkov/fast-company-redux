@@ -2,8 +2,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { displayDate } from '../../../utils/displayDate'
-import { useUser } from '../../../hooks/useUsers'
-import { useAuth } from '../../../hooks/useAuth'
+// import { useUser } from '../../../hooks/useUsers'
+import { useSelector } from 'react-redux'
+import { getCurrentUserId, getUserById } from '../../../store/users'
 // import API from '../../../api'
 
 const Comment = ({
@@ -15,9 +16,10 @@ const Comment = ({
 }) => {
     // const [user, setUser] = useState()
     // const [isLoading, setIsLoading] = useState(false)
-    const { getUserById } = useUser()
-    const { currentUser } = useAuth()
-    const user = getUserById(userId)
+    // const { getUserById } = useUser()
+    const currentUserId = useSelector(getCurrentUserId())
+    const user = useSelector(getUserById(userId))
+    // const user = getUserById(userId)
 
     // useEffect(() => {
     //     setIsLoading(true)
@@ -56,7 +58,7 @@ const Comment = ({
                                             - {displayDate(created)}
                                         </span>
                                     </p>
-                                    {currentUser._id === userId && (
+                                    {currentUserId === userId && (
                                         <button
                                             className="btn btn-sm text-primary d-flex align-items-center"
                                             onClick={() => onRemove(id)}
